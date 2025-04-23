@@ -3,22 +3,24 @@ import { useState } from "react";
 import { MDXRemote } from "next-mdx-remote";
 import { serialize } from "next-mdx-remote/serialize";
 import { Button } from "@/components/button";
+import Tweet from "@/components/tweet";
+import { CopyButton } from "@/components/copy-button";
 
 export default function Home() {
   const [post, setPost] = useState<
-    | { title: string; text: string; keywords: string; description: string }
+    | {
+        title: string;
+        text: string;
+        keywords: string;
+        description: string;
+        tweet: string;
+      }
     | undefined
   >();
   const [mdx, setMdx] = useState<any>();
 
-  function copyText() {
-    navigator.clipboard.writeText(JSON.stringify(post));
-
-    alert("Copied the text: " + post!.title);
-  }
-
   return (
-    <div className="py-4 flex flex-col items-center justify-center min-h-screen bg-gray-100">
+    <div className="py-4 space-y-2 flex flex-col items-center justify-center min-h-screen bg-gray-100">
       <form
         action={async (args) => {
           const res = await fetch("http://localhost:3000/api/post", {
@@ -95,18 +97,16 @@ export default function Home() {
       </form>
 
       {post && (
-        <article className="mx-auto prose prose-headings:mt-8 prose-headings:font-semibold prose-h1:text-5xl prose-h2:text-4xl prose-h3:text-3xl prose-h4:text-2xl prose-h5:text-xl prose-h6:text-lg">
-          <h1>{post.title}</h1>
-          <button
-            className="bg-amber-500 px-4 py-2 rounded-md text-white font-bold cursor-pointer hover:bg-amber-700"
-            onClick={copyText}
-          >
-            Copy post
-          </button>
-          <p>{post.description}</p>
-          <p className="sr-only">{post.keywords}</p>
-          <MDXRemote {...mdx} />
-        </article>
+        <>
+          <Tweet tweet={post.tweet} />
+          <article className="mx-auto prose prose-headings:mt-8 prose-headings:font-semibold prose-h1:text-5xl prose-h2:text-4xl prose-h3:text-3xl prose-h4:text-2xl prose-h5:text-xl prose-h6:text-lg">
+            <h1>{post.title}</h1>
+            <CopyButton text={JSON.stringify(post)}>Copy Post</CopyButton>
+            <p>{post.description}</p>
+            <p className="sr-only">{post.keywords}</p>
+            <MDXRemote {...mdx} />
+          </article>
+        </>
       )}
     </div>
   );
