@@ -1,103 +1,113 @@
-import Image from "next/image";
+"use client";
+import { useState } from "react";
+import { MDXRemote } from "next-mdx-remote";
+import { serialize } from "next-mdx-remote/serialize";
+import { Button } from "@/components/button";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [post, setPost] = useState<
+    | { title: string; text: string; keywords: string; description: string }
+    | undefined
+  >();
+  const [mdx, setMdx] = useState<any>();
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+  function copyText() {
+    navigator.clipboard.writeText(JSON.stringify(post));
+
+    alert("Copied the text: " + post!.title);
+  }
+
+  return (
+    <div className="py-4 flex flex-col items-center justify-center min-h-screen bg-gray-100">
+      <form
+        action={async (args) => {
+          const res = await fetch("http://localhost:3000/api/post", {
+            method: "POST",
+            body: JSON.stringify({
+              subject: args.get("subject"),
+              concept: args.get("concept"),
+              keywords: (args.get("keywords") as string).split(","),
+            }),
+          });
+          if (res.ok) {
+            const body = await res.json();
+            const source = await serialize(body.text);
+            setPost(body);
+            setMdx(source);
+          }
+        }}
+        className="flex w-xl flex-col items-center justify-center bg-gray-100"
+      >
+        <h1 className="text-4xl font-bold mb-8 text-gray-800">
+          Blog Post Generator
+        </h1>
+        <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-md space-y-2">
+          <div>
+            <label
+              htmlFor="subject"
+              className="block text-gray-700 text-sm font-bold mb-2"
+            >
+              Subject Description:
+            </label>
+            <input
+              required
+              type="text"
+              id="subject"
+              name="subject"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              defaultValue={"Home cofee brewing"}
+              placeholder='The main topic (e.g., "Home Coffee Brewing")'
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+          </div>
+          <div>
+            <label
+              htmlFor="subject"
+              className="block text-gray-700 text-sm font-bold mb-2"
+            >
+              Concept:
+            </label>
+            <textarea
+              required
+              id="concept"
+              name="concept"
+              defaultValue={"Coffee beans subscriptions"}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              placeholder='The underlying idea or type of product/service to promote subtly (e.g., "using fresh beans").'
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="subject"
+              className="block text-gray-700 text-sm font-bold mb-2"
+            >
+              Keywords: (optional)
+            </label>
+            <input
+              type="text"
+              id="keywords"
+              name="keywords"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              placeholder="A list of keywords to target. (comma separated)"
+            />
+          </div>
+          <Button>Generate post</Button>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </form>
+
+      {post && (
+        <article className="mx-auto prose prose-headings:mt-8 prose-headings:font-semibold prose-h1:text-5xl prose-h2:text-4xl prose-h3:text-3xl prose-h4:text-2xl prose-h5:text-xl prose-h6:text-lg">
+          <h1>{post.title}</h1>
+          <button
+            className="bg-amber-500 px-4 py-2 rounded-md text-white font-bold cursor-pointer hover:bg-amber-700"
+            onClick={copyText}
+          >
+            Copy post
+          </button>
+          <p>{post.description}</p>
+          <p className="sr-only">{post.keywords}</p>
+          <MDXRemote {...mdx} />
+        </article>
+      )}
     </div>
   );
 }
