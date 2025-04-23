@@ -23,7 +23,7 @@ export default function Home() {
     <div className="py-4 space-y-2 flex flex-col items-center justify-center min-h-screen bg-gray-100">
       <form
         action={async (args) => {
-          const res = await fetch("http://localhost:3000/api/post", {
+          const res = await fetch("/api/post", {
             method: "POST",
             body: JSON.stringify({
               subject: args.get("subject"),
