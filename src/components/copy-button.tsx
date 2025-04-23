@@ -7,7 +7,6 @@ export const CopyButton: React.FC<{
 }> = ({ children, text, toastText = "Text on your clipboard" }) => {
   function copyText() {
     navigator.clipboard.writeText(text);
-
     toast(toastText);
   }
 
