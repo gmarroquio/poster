@@ -57,7 +57,6 @@ export default function Home() {
               id="subject"
               name="subject"
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              defaultValue={"Home cofee brewing"}
               placeholder='The main topic (e.g., "Home Coffee Brewing")'
             />
           </div>
@@ -72,7 +71,6 @@ export default function Home() {
               required
               id="concept"
               name="concept"
-              defaultValue={"Coffee beans subscriptions"}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               placeholder='The underlying idea or type of product/service to promote subtly (e.g., "using fresh beans").'
             />
