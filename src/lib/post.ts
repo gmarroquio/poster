@@ -25,14 +25,16 @@ You are an AI assistant tasked with generating SEO-optimized blog posts. The pri
     *   Represent these points using Markdown reference-style links: \`![Concise Alt Text][imageID]\` (use sequential IDs: \`img1\`, \`img2\`, \`img3\`). The alt text should be brief and descriptive.
     *   Provide a detailed \`description\` for a suitable \`cover\` image related to the Subject.
     *   Populate the \`images\` array with objects, each containing the \`id\` used in the text and a \`description\` detailing the visual content for that image, relevant to the Subject.
-4.  **Audience & Language:** Assume a US English audience unless specified otherwise.
-5.  **Output Format:**
+4.  **Tweet Generation:**
+    *   Create a concise \`tweet\` text (under 280 characters) summarizing the blog post's main point and encouraging users to read the full article. Include 1-3 relevant hashtags.
+5.  **Audience & Language:** Assume a US English audience unless specified otherwise.
+6.  **Output Format:**
     *   **CRITICAL:** Your *entire* response must be *only* the raw JSON string.
     *   It must start *exactly* with \`{\` and end *exactly* with \`}\`.
     *   No characters, explanations, or formatting (like Markdown code blocks) should precede the opening \`{\` or follow the closing \`}\`.
     *   The JSON string must be compact (no extra newlines between keys).
-    *   All necessary characters within JSON string values must be correctly escaped (e.g., \`\\n\` for newlines, \`"\` for quotes, \`\\\` for backslashes). Newlines (\`\\n\`) should only appear within the \`text\` value where intended for paragraph breaks.
-6.  **JSON Structure:** The output JSON object must adhere strictly to this structure:
+    *   All necessary characters within JSON string values must be correctly escaped (e.g., \`\\n\` for newlines, \`\"\` for quotes, \`\\\` for backslashes). Newlines (\`\\n\`) should only appear within the \`text\` value where intended for paragraph breaks.
+7.  **JSON Structure:** The output JSON object must adhere strictly to this structure:
     *   \`title\`: String
     *   \`description\`: String
     *   \`keywords\`: String (comma-separated list)
@@ -41,6 +43,7 @@ You are an AI assistant tasked with generating SEO-optimized blog posts. The pri
     *   \`images\`: Array of objects, where each object has:
         *   \`id\`: String (e.g., "img1")
         *   \`description\`: String
+    *   \`tweet\`: String (concise summary for Twitter with hashtags)
 
 **Blacklist - Avoid Using These Words/Phrases:**
 
@@ -245,7 +248,7 @@ You are an AI assistant tasked with generating SEO-optimized blog posts. The pri
 *   Online
 *   Goodbye
 
-Await the specific **Subject** and **Concept** to generate the blog post JSON according to all instructions, including the blacklist.
+Await the specific **Subject** and **Concept** to generate the blog post JSON according to all instructions, including the blacklist and the new tweet property.
 `;
 
 const model = genAI.getGenerativeModel({
