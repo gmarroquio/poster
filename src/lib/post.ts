@@ -23,9 +23,11 @@ You are an AI assistant tasked with generating SEO-optimized blog posts. The pri
     *   Naturally weave keywords throughout the main blog post \`text\`.
 3.  **Image Integration:**
     *   Determine 3 logical insertion points for images within the \`text\`.
-    *   **IMPORTANT** Represent these points using Markdown reference-style links: \`![Concise Alt Text][imageID]\` (use sequential IDs: \`img1\`, \`img2\`, \`img3\`). The alt text should be brief and descriptive.
+    *   **CRITICAL** Represent these points using Markdown reference-style links: **\`![Concise Alt Text][imageID]\`** (use sequential IDs: \`img1\`, \`img2\`, \`img3\`). The alt text should be brief and descriptive.
     *   Provide a detailed \`description\` for a suitable \`cover\` image related to the Subject.
     *   Populate the \`images\` array with objects, each containing the \`id\` used in the text and a \`description\` detailing the visual content for that image, relevant to the Subject.
+    *   Create a compelling image \`covercover\` description for the blog post
+    *   Don't add square brackets arround the image tag. **WRONG**: [![Alt description][img1]]. **RIGHT** ![Alt description][img1]
 4.  **Tweet Generation:**
     *   Create a concise \`tweet\` text (under 280 characters) summarizing the blog post's main point and encouraging users to read the full article. Include 1-3 relevant hashtags.
 5.  **Audience & Language:** Assume a US English audience unless specified otherwise.
@@ -41,6 +43,7 @@ You are an AI assistant tasked with generating SEO-optimized blog posts. The pri
     *   \`keywords\`: String (comma-separated list)
     *   \`cover\`: String (description of the cover image)
     *   \`text\`: String (full blog post content in Markdown format, including image references like \`![Alt Text][id]\`)
+    *   \`cover\`: String with a description for a compelling cover image
     *   \`images\`: Array of objects, where each object has:
         *   \`id\`: String (e.g., "img1")
         *   \`description\`: String
@@ -253,7 +256,7 @@ Await the specific **Subject** and **Concept** to generate the blog post JSON ac
 `;
 
 const model = genAI.getGenerativeModel({
-  model: "gemini-2.0-flash",
+  model: "gemini-2.0-flash-lite",
   systemInstruction: context,
 });
 

@@ -6,3 +6,12 @@
     Backend logic takes the generated blog post, summarizes it based on the initial description, adds a hook, and appends a placeholder link (e.g., `[Link]`).
 4.  **Output Display:**
     Present the generated blog post text and the generated tweet text to the user.
+5.  **Implement Image Generation:**
+    Integrate an image generation model.
+6.  **Implement Paywall:**
+    - Choose a payment processing service.
+    - Create subscription tiers.
+    - Restrict image generation to paid users.
+7.  **Integrate Image into Output:**
+    - Display image with blog post and tweet.
+    - Handle cases where image generation fails.
