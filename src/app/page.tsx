@@ -20,7 +20,7 @@ export default function Home() {
   const [mdx, setMdx] = useState<any>();
 
   return (
-    <div className="py-4 space-y-2 flex flex-col items-center justify-center min-h-screen bg-gray-100">
+    <div className="px-2 py-4 space-y-2 flex flex-col items-center justify-center min-h-screen bg-gray-100">
       <form
         action={async (args) => {
           const res = await fetch("/api/post", {
@@ -38,7 +38,7 @@ export default function Home() {
             setMdx(source);
           }
         }}
-        className="flex w-xl flex-col items-center justify-center bg-gray-100"
+        className="flex w-full md:w-xl flex-col items-center justify-center bg-gray-100"
       >
         <h1 className="text-4xl font-bold mb-8 text-gray-800">
           Blog Post Generator
