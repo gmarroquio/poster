@@ -3,15 +3,19 @@ import { useQuery } from "@/lib/convex/client";
 import { api } from "@/lib/convex";
 
 export default function Home() {
-  const { pending, data: posts } = useQuery(api.posts.get);
+  const { pending, data: posts, error } = useQuery(api.posts.get);
 
   if (pending) {
     return <div>Loading</div>;
   }
 
+  if (error) {
+    return <div>Error loading posts</div>;
+  }
+
   return (
     <main className="flex flex-col items-center justify-between p-24 space-y-2">
-      {posts?.map(({ _id, title, description, cover }) => (
+      {posts.map(({ _id, title, description, cover }) => (
         <article
           key={_id}
           className="mx-auto border-gray-200 px-4 py-2 rounded-md border"

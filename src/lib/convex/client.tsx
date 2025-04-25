@@ -9,7 +9,13 @@ export function useQuery<Query extends FunctionReference<"query">>(
   api: Query,
   ...args: OptionalRestArgsOrSkip<Query>
 ) {
-  const data = useConvexQuery(api, ...args);
+  let data = undefined;
+  let error = undefined;
+  try {
+    data = useConvexQuery(api, ...args);
+  } catch (e) {
+    error = e;
+  }
   const [pending, setPending] = useState(true);
 
   useEffect(() => {
@@ -17,5 +23,8 @@ export function useQuery<Query extends FunctionReference<"query">>(
     else setPending(true);
   }, [data]);
 
-  return { pending, data };
+  return { pending, data, error } as
+    | { pending: true; data: undefined; error: undefined }
+    | { pending: false; data: undefined; error: Error }
+    | { pending: false; data: Query["_returnType"]; error: undefined };
 }
