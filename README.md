@@ -9,7 +9,7 @@ This document outlines the planned features and development milestones for the P
 - [x] Tweet Generation: Backend logic takes the generated blog post, summarizes it based on the initial description, adds a hook, and appends a placeholder link (e.g., `[Link]`).
 - [x] Output Display: Present the generated blog post text and the generated tweet text to the user.
 - [ ] Login
-- [ ] Save created posts
+- [x] Save created posts
 - [ ] Save images
 - [ ] Image Generation:
   - [ ] Integrate an image generation model.
