@@ -1,9 +1,13 @@
 "use client";
-import { useQuery } from "convex/react";
+import { useQuery } from "@/lib/convex/client";
 import { api } from "@/lib/convex";
 
 export default function Home() {
-  const posts = useQuery(api.posts.get);
+  const { pending, data: posts } = useQuery(api.posts.get);
+
+  if (pending) {
+    return <div>Loading</div>;
+  }
 
   return (
     <main className="flex flex-col items-center justify-between p-24 space-y-2">
