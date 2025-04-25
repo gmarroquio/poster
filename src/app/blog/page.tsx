@@ -1,12 +1,13 @@
 "use client";
 import { useQuery } from "@/lib/convex/client";
 import { api } from "@/lib/convex";
+import { Loading } from "@/components/loading";
 
 export default function Home() {
   const { pending, data: posts, error } = useQuery(api.posts.get);
 
   if (pending) {
-    return <div>Loading</div>;
+    return <Loading />;
   }
 
   if (error) {
