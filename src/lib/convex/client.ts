@@ -1,3 +1,4 @@
+"use client";
 import {
   type OptionalRestArgsOrSkip,
   useQuery as useConvexQuery,
