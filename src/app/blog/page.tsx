@@ -1,8 +1,9 @@
-import { fetchQuery } from "convex/nextjs";
+"use client";
+import { useQuery } from "convex/react";
 import { api } from "@/lib/convex";
 
-export default async function Page() {
-  const posts = await fetchQuery(api.posts.get);
+export default function Home() {
+  const posts = useQuery(api.posts.get);
 
   return (
     <main className="flex flex-col items-center justify-between p-24 space-y-2">
