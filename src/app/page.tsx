@@ -1,13 +1,13 @@
 "use client";
 import { useState } from "react";
 import { MDXRemote } from "next-mdx-remote";
-//import { serialize } from "next-mdx-remote/serialize";
+import { serialize } from "next-mdx-remote/serialize";
 import { Button } from "@/components/button";
 import Tweet from "@/components/tweet";
 import { CopyButton } from "@/components/copy-button";
 
 export default function Home() {
-  const [post] = useState<
+  const [post, setPost] = useState<
     | {
         title: string;
         text: string;
@@ -17,27 +17,26 @@ export default function Home() {
       }
     | undefined
   >();
-  const [mdx] = useState<any>();
+  const [mdx, setMdx] = useState<any>();
 
   return (
     <div className="px-2 py-4 space-y-2 flex flex-col items-center justify-center min-h-screen bg-gray-100">
       <form
-        action={async () => {
-          console.log("gerando post");
-          // const res = await fetch("/api/post", {
-          //   method: "POST",
-          //   body: JSON.stringify({
-          //     subject: args.get("subject"),
-          //     concept: args.get("concept"),
-          //     keywords: (args.get("keywords") as string).split(","),
-          //   }),
-          // });
-          // if (res.ok) {
-          //   const body = await res.json();
-          //   const source = await serialize(body.text);
-          //   setPost(body);
-          //   setMdx(source);
-          // }
+        action={async (args) => {
+          const res = await fetch("/api/post", {
+            method: "POST",
+            body: JSON.stringify({
+              subject: args.get("subject"),
+              concept: args.get("concept"),
+              keywords: (args.get("keywords") as string).split(","),
+            }),
+          });
+          if (res.ok) {
+            const body = await res.json();
+            const source = await serialize(body.text);
+            setPost(body);
+            setMdx(source);
+          }
         }}
         className="flex w-full md:w-xl flex-col items-center justify-center bg-gray-100"
       >

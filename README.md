@@ -8,13 +8,13 @@ This document outlines the planned features and development milestones for the P
 - [x] Blog Post Generation: Backend logic calls a text generation model with the detailed description to create the blog post content.
 - [x] Tweet Generation: Backend logic takes the generated blog post, summarizes it based on the initial description, adds a hook, and appends a placeholder link (e.g., `[Link]`).
 - [x] Output Display: Present the generated blog post text and the generated tweet text to the user.
-- [ ] Login
 - [x] Save created posts
-- [ ] Save images
+- [ ] Login
 - [ ] Image Generation:
   - [ ] Integrate an image generation model.
     - [ ] Chatgpt image generator (5 credits)
     - [ ] Some other model from Replicate (2 credits)
+- [ ] Save images
 - [ ] Paywall:
   - [ ] Implement a payment system (Stripe).
   - [ ] Create a credit system (instead of subscriptions).
